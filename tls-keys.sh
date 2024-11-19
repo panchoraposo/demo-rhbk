@@ -1,0 +1,1 @@
+openssl req -subj '/CN=demo.keycloak.org/O=Demo Keycloak./C=US' -newkey rsa:2048 -nodes -keyout ./tls/key.pem -x509 -days 365 -out ./tls/certificate.pem
