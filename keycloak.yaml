@@ -1,0 +1,21 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: keycloak-example
+spec:
+  instances: 1
+  db:
+    vendor: postgres
+    host: demo-keycloak-db.postgres.database.azure.com
+    usernameSecret:
+      name: keycloak-db-secret
+      key: username
+    passwordSecret:
+      name: keycloak-db-secret
+      key: password
+  http:
+    tlsSecret: my-tls-secret
+  hostname:
+    hostname: keycloak-demo-entel.apps.gjhufg5g.eastus.aroapp.io
+  proxy:
+    headers: xforwarded # double check your reverse proxy sets and overwrites the X-Forwarded-* headers
