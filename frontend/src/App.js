@@ -1,24 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import './App.css';
+import { KeycloakContext } from './KeycloakContext';
 
-const BACKEND_URL = 'http://localhost:8080';
-
-function App() {
+const App = () => {
     const [tasks, setTasks] = useState([]);
     const [newTask, setNewTask] = useState('');
+    const { keycloak, isAuthenticated } = useContext(KeycloakContext);
+    const [loading, setLoading] = useState(true);
 
     // Fetch tasks from the backend
     useEffect(() => {
-        fetch('http://localhost:8080/api/tasks')
+        if (isAuthenticated) {
+            setLoading(false); // Set loading to false when authentication is complete
+        }
+        fetch('https://backend-demo-entel.apps.gjhufg5g.eastus.aroapp.io/api/tasks')
             .then((res) => res.json())
             .then((data) => setTasks(data))
             .catch((err) => console.error(err));
-    }, []);
+    }, [isAuthenticated]);
 
     // Add a new task
     const addTask = () => {
         if (newTask.trim()) {
-            fetch('http://localhost:8080/api/tasks', {
+            fetch('https://backend-demo-entel.apps.gjhufg5g.eastus.aroapp.io/api/tasks', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text: newTask }),
@@ -32,14 +36,14 @@ function App() {
 
     // Remove a task
     const removeTask = (id) => {
-        fetch(`http://localhost:8080/api/tasks/${id}`, { method: 'DELETE' })
+        fetch(`https://backend-demo-entel.apps.gjhufg5g.eastus.aroapp.io/api/tasks/${id}`, { method: 'DELETE' })
             .then(() => setTasks(tasks.filter((task) => task._id !== id)))
             .catch((err) => console.error(err));
     };
 
     return (
         <div className="app">
-            <h1>TODO List</h1>
+            <h1>TODO List - Secured with Keycloak</h1>
             <div className="task-input">
                 <input
                     type="text"
@@ -57,8 +61,17 @@ function App() {
                     </li>
                 ))}
             </ul>
+            
+            <p>Welcome, {keycloak.tokenParsed?.preferred_username}</p>
+            <p>Client ID: {keycloak.clientId}</p>
+            <p>Auth Server URL: {keycloak.authServerUrl}</p>
+            <p>Realm: {keycloak.realm}</p>
+            <p>Token (JWT): {keycloak.token}</p> {/* Displaying the JWT token */}
+            <button onClick={() => keycloak.logout()}>Logout</button>
+
+
         </div>
     );
-}
+};
 
 export default App;
