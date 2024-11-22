@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/todo');
+mongoose.connect(process.env.MONGO_URI || 'mongodb://mongodb:27017/todo');
 
 // Task Schema and Model
 const TaskSchema = new mongoose.Schema({ text: String });
