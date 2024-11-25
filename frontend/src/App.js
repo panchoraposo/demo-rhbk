@@ -57,14 +57,6 @@ const App = () => {
                     </li>
                 ))}
             </ul>
-            
-            <p>Keycloak</p>
-            <p>Client ID: {keycloak.clientId}</p>
-            <p>Auth Server URL: {keycloak.authServerUrl}</p>
-            <p>Realm: {keycloak.realm}</p>
-            <button onClick={() => keycloak.logout()}>Logout</button>
-
-
         </div>
     );
 };
