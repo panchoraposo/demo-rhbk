@@ -4,7 +4,7 @@
 
 3. Create secret with .pem files:
 ``./keycloak/tls/tls-keys.sh``
-``oc create secret tls demo-tls-secret --cert ./tls/certificate.pem --key ./tls/key.pem``
+``oc create secret tls demo-tls-secret --cert certificate.pem --key key.pem``
 
 4. Create secret with database credentials:
 ``oc create secret generic keycloak-db-secret --from-literal=username=<username> --from-literal=password=<password>``
