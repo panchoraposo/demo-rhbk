@@ -8,7 +8,7 @@ export const KeycloakContext = createContext();
 export const KeycloakProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [keycloakInitialized, setKeycloakInitialized] = useState(false);
-    const [token, setToken] = useState("");
+    const [setToken] = useState("");
 
     useEffect(() => {
         // Check if Keycloak has already been initialized
@@ -18,6 +18,7 @@ export const KeycloakProvider = ({ children }) => {
                 .then((authenticated) => {
                     setIsAuthenticated(authenticated);
                     setKeycloakInitialized(true); // Mark Keycloak as initialized
+                    console.log(keycloak.token);
                     setToken(keycloak.token);
                 })
                 .catch((err) => {
