@@ -1,6 +1,7 @@
 # Etapa de construcción
 FROM registry.redhat.io/ubi9/nodejs-20 AS build
 
+USER root
 # Crear un usuario no root y asignarle permisos
 RUN useradd -m nodeuser && \
     mkdir -p /app && \
