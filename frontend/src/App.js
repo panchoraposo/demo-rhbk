@@ -9,7 +9,7 @@ const App = () => {
     
     // Fetch tasks from the backend
     useEffect(() => {
-        fetch('https://backend-demo-entel.apps.zicqg6sw.eastus.aroapp.io/api/tasks')
+        fetch('https://' + process.env.BACKEND_URL + '/api/tasks')
             .then((res) => res.json())
             .then((data) => setTasks(data))
             .catch((err) => console.error(err));
@@ -18,7 +18,7 @@ const App = () => {
     // Add a new task
     const addTask = () => {
         if (newTask.trim()) {
-            fetch('https://backend-demo-entel.apps.zicqg6sw.eastus.aroapp.io/api/tasks', {
+            fetch('https://' + process.env.BACKEND_URL + '/api/tasks', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text: newTask }),
@@ -32,7 +32,7 @@ const App = () => {
 
     // Remove a task
     const removeTask = (id) => {
-        fetch(`https://backend-demo-entel.apps.zicqg6sw.eastus.aroapp.io/${id}`, { method: 'DELETE' })
+        fetch('https://' + process.env.BACKEND_URL + '/${id}', { method: 'DELETE' })
             .then(() => setTasks(tasks.filter((task) => task._id !== id)))
             .catch((err) => console.error(err));
     };

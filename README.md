@@ -13,3 +13,11 @@ oc create secret generic keycloak-db-secret \
 4. Create React app
 npx create-react-app react-app
 
+
+5. OpenShift
+oc new-project demo-rhbk
+oc new-app --name=mongodb --image=mongo:5.0 --env=MONGO_INITDB_DATABASE=todo -l app.kubernetes.io/runtime=mongodb
+
+
+
+

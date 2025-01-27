@@ -1,39 +1,22 @@
-# Etapa de construcción
-FROM registry.redhat.io/ubi9/nodejs-20 AS build
-
-USER root
-# Crear un usuario no root y asignarle permisos
-RUN useradd -m nodeuser && \
-    mkdir -p /app && \
-    chown -R nodeuser:nodeuser /app
-
-# Establecer el directorio de trabajo y cambiar al usuario no root
-WORKDIR /app
-USER nodeuser
-
-# Copiar los archivos de la aplicación
-COPY --chown=nodeuser:nodeuser package.json package-lock.json ./
-
-# Instalar las dependencias
-RUN npm install
-
-# Copiar el código fuente de la aplicación
-COPY --chown=nodeuser:nodeuser . .
-
-# Construcción de la aplicación (si es necesario)
-RUN npm run build
-
-# Etapa de despliegue
 FROM registry.redhat.io/ubi9/nodejs-20
 
-# Crear un usuario no root y asignarle permisos
-RUN useradd -m nodeuser && \
-    mkdir -p /app && \
-    chown -R nodeuser:nodeuser /app
+# Set environment variable as development
+ENV NODE_ENV=development
 
-# Establecer el directorio de trabajo y cambiar al usuario no root
-WORKDIR /app
-USER nodeuser
-COPY --from=build /app /app
+# Defining work directory
+WORKDIR /usr/src/app
+
+# Copy the packages from remote directory to container work directory
+COPY --chown=1001:1001 package.json ./
+
+# Install all dependacies using npm
+RUN npm install
+
+# Copy the application to container
+COPY --chown=1001:1001 . /usr/src/app
+
+# Expose the 8080 port to accept upcomming traffic
 EXPOSE 8080
+
+# Execute the start script
 CMD ["npm", "start"]

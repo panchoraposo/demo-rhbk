@@ -16,6 +16,6 @@ spec:
   http:
     tlsSecret: demo-tls-secret
   hostname:
-    hostname: keycloak.apps.zicqg6sw.eastus.aroapp.io
+    hostname: keycloak.apps.<CHANGE_ME>.aroapp.io
   proxy:
     headers: xforwarded # double check your reverse proxy sets and overwrites the X-Forwarded-* headers
