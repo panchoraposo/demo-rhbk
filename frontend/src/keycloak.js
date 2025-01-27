@@ -7,4 +7,5 @@ const keycloak = new Keycloak({
     clientId: 'todo-frontend',   // Client ID
 });
 
+console.log('KEYCLOAK_URL:', keycloak);
 export default keycloak;
