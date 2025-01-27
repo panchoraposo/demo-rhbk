@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import './App.css';
 import { KeycloakContext } from './KeycloakContext';
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://backend:8080"
+const BACKEND_URL = process.env.BACKEND_URL || "https://backend-demo-rhbk.apps.i7mvwf9w.eastus.aroapp.io"
 
 const App = () => {
     const [tasks, setTasks] = useState([]);
