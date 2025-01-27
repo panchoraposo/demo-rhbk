@@ -1,0 +1,38 @@
+# Etapa de construcción
+FROM registry.redhat.io/ubi9/nodejs-20 AS build
+
+# Crear un usuario no root y asignarle permisos
+RUN useradd -m nodeuser && \
+    mkdir -p /app && \
+    chown -R nodeuser:nodeuser /app
+
+# Establecer el directorio de trabajo y cambiar al usuario no root
+WORKDIR /app
+USER nodeuser
+
+# Copiar los archivos de la aplicación
+COPY --chown=nodeuser:nodeuser package.json package-lock.json ./
+
+# Instalar las dependencias
+RUN npm install
+
+# Copiar el código fuente de la aplicación
+COPY --chown=nodeuser:nodeuser . .
+
+# Construcción de la aplicación (si es necesario)
+RUN npm run build
+
+# Etapa de despliegue
+FROM registry.redhat.io/ubi9/nodejs-20
+
+# Crear un usuario no root y asignarle permisos
+RUN useradd -m nodeuser && \
+    mkdir -p /app && \
+    chown -R nodeuser:nodeuser /app
+
+# Establecer el directorio de trabajo y cambiar al usuario no root
+WORKDIR /app
+USER nodeuser
+COPY --from=build /app /app
+EXPOSE 8080
+CMD ["npm", "start"]
