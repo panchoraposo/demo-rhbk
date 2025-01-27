@@ -2,14 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const jwt = require('express-jwt');
+const jwt = require('express-jwt'); // Importar express-jwt
 const jwksRsa = require('jwks-rsa');
 
 const app = express();
 // Env variables
 const PORT = process.env.PORT || 4000;
-const KEYCLOAK_DOMAIN = process.env.KEYCLOAK_DOMAIN || 'http://localhost:8080'
-const KEYCLOAK_REALM = process.env.KEYCLOAK_REALM || 'demo'
+const KEYCLOAK_DOMAIN = process.env.KEYCLOAK_DOMAIN || 'http://localhost:8080';
+const KEYCLOAK_REALM = process.env.KEYCLOAK_REALM || 'demo';
 const CLIENT_ID = process.env.CLIENT_ID;
 
 // Keycloak configuration
